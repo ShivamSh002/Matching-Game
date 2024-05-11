@@ -1,0 +1,26 @@
+.back {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    cursor: pointer;
+}
+
+.cardWrapper {
+    display: flex;
+    padding: 50px;
+    gap: 20px;
+    padding-top: 200px;
+    box-sizing: content-box;
+}
+
+.pinkCard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px
+}
+
+.blueCard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px
+}

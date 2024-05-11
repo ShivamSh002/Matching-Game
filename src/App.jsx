@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Intro from "./Components/Intro/Intro";
 import Question from "./Components/Question/Question";
 import Instruction from "./Components/Instruction/Instruction";
+import Activity from "./Components/Activity/Activity";
 
 const App = () => {
   return (
@@ -38,6 +39,14 @@ const App = () => {
         element={
           <div className="wrapper">
             <Instruction />
+          </div>
+        }
+      />{" "}
+      <Route
+        path="/activity"
+        element={
+          <div className="wrapper">
+            <Activity />
           </div>
         }
       />
