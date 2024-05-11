@@ -23,3 +23,21 @@
     flex-wrap: wrap;
     gap: 15px
 }
+
+.progess {
+    position: absolute;
+    top: 30px;
+    left: 25%;
+    width: 700px;
+    div {
+        border-radius: 15px;
+        height: 35px;
+    }
+}
+
+.disableBanana {
+    position: absolute;
+    top: -20px;
+    right: 400px;
+    z-index: 1;
+}

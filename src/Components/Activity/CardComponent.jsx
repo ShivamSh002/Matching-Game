@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PinkCard from "../../assests/pinkCard.png";
 import BlueCard from "../../assests/blueCard.png";
 import Apple from "../../assests/apple.webp";
@@ -9,7 +9,7 @@ import Grape from "../../assests/grape.jpeg";
 import Mango from "../../assests/mango.jpg";
 import styles from "./card.module.css";
 
-const CardComponent = () => {
+const CardComponent = ({ count, setCount }) => {
   const [pinkCards, setPinkCards] = useState([
     { id: 1, back: Apple, flipped: false },
     { id: 2, back: Orange, flipped: false },
@@ -20,74 +20,65 @@ const CardComponent = () => {
   ]);
 
   const [blueCards, setBlueCards] = useState([
-    { id: 1, back: Apple, flipped: false },
-    { id: 2, back: Orange, flipped: false },
-    { id: 3, back: Banana, flipped: false },
-    { id: 4, back: Kiwi, flipped: false },
-    { id: 5, back: Grape, flipped: false },
-    { id: 6, back: Mango, flipped: false },
+    { id: 7, back: Apple, flipped: false },
+    { id: 8, back: Orange, flipped: false },
+    { id: 9, back: Banana, flipped: false },
+    { id: 10, back: Kiwi, flipped: false },
+    { id: 11, back: Grape, flipped: false },
+    { id: 12, back: Mango, flipped: false },
   ]);
+  const [v1, setV1] = useState(0);
+  const [v2, setV2] = useState(0);
 
-  const [flippedPinkCard, setFlippedPinkCard] = useState(null);
-  const [flippedBlueCard, setFlippedBlueCard] = useState(null);
-  const handleClick = (
-    id,
-    cardSet,
-    setCardSet,
-    flippedCard,
-    setFlippedCard
-  ) => {
+  const handleClick = (id, cardSet, setCardSet) => {
+    console.log(id);
     setCardSet((prevCards) =>
-      prevCards.map((card) =>
-        card.id === id ? { ...card, flipped: !card.flipped } : card
-      )
+      prevCards.map((card) => ({
+        ...card,
+        flipped: card.id === id ? !card.flipped : false,
+      }))
     );
+    if (cardSet === pinkCards) {
+      setV1(id);
+    } else {
+      setV2(id);
+    }
+    console.log(v1, v2);
+  };
 
-    if (flippedCard !== null) {
-      const flippedCardData = cardSet.find((card) => card.id === flippedCard);
-      const currentCardData = cardSet.find((card) => card.id === id);
-
-      if (
-        flippedCardData &&
-        currentCardData &&
-        flippedCardData.id === currentCardData.id &&
-        flippedCard !== id
-      ) {
-        // If the IDs match and the flipped cards are not the same, hide both cards
-        setCardSet((prevCards) =>
+  useEffect(() => {
+    setTimeout(() => {
+      if (v1 === v2 - 6 && v1 !== 0 && v2 !== 0) {
+        setPinkCards((prevCards) =>
           prevCards.map((card) =>
-            card.id === flippedCardData.id || card.id === currentCardData.id
-              ? { ...card, hidden: true }
+            card.id === v1 || card.id === v2
+              ? { ...card, visibility: "hidden" }
               : card
           )
         );
-        setFlippedCard(null); // Reset flipped card
-      } else {
-        setFlippedCard(id); // Update flipped card
+        setBlueCards((prevCards) =>
+          prevCards.map((card) =>
+            card.id === v1 || card.id === v2
+              ? { ...card, visibility: "hidden" }
+              : card
+          )
+        );
+        setCount(count + 15);
       }
-    } else {
-      setFlippedCard(id); // Update flipped card
-    }
-  };
+    }, 500);
+  }, [v1, v2]);
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.cardContainer}>
+      <div c className={styles.cardContainer}>
         {pinkCards.map((card) => (
           <div
             className={`${styles.card} ${
               card.flipped ? styles.cardFlipped : ""
-            } ${!card.visible ? styles.cardHidden : ""}`}
-            key={card.id}
-            onClick={() =>
-              handleClick(
-                card.id,
-                pinkCards,
-                setPinkCards,
-                flippedPinkCard,
-                setFlippedPinkCard
-              )
-            }
+            } `}
+            id={card.id}
+            onClick={() => handleClick(card.id, pinkCards, setPinkCards)}
+            style={{ visibility: card.visibility }}
           >
             <div className={styles.cardInner}>
               <div className={styles.cardFront}>
@@ -105,17 +96,10 @@ const CardComponent = () => {
           <div
             className={`${styles.card} ${
               card.flipped ? styles.cardFlipped : ""
-            } ${!card.visible ? styles.cardHidden : ""}`}
-            key={card.id}
-            onClick={() =>
-              handleClick(
-                card.id,
-                blueCards,
-                setBlueCards,
-                flippedBlueCard,
-                setFlippedBlueCard
-              )
-            }
+            } `}
+            id={card.id}
+            onClick={() => handleClick(card.id, blueCards, setBlueCards)}
+            style={{ visibility: card.visibility }}
           >
             <div className={styles.cardInner}>
               <div className={styles.cardFront}>
